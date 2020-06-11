@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
 dotenv.config();
@@ -15,11 +15,11 @@ const userRoute = require('./routes/user');
 
 
 //Connect to DB
-mongoose.connect(process.env.DB_CONNECT,
+/*mongoose.connect(process.env.DB_CONNECT,
 { useNewUrlParser: true,
   useUnifiedTopology: true },
 ()=> console.log('Connected to DB')
-);
+);*/
 
 
 

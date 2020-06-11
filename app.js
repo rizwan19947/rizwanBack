@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const mysql = require('mysql');
-const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
 //const con = require('./controller/sql');
 //const bodyParser = require("body-parser");
 //const logger = require("morgan");
+
 
 dotenv.config();
 
