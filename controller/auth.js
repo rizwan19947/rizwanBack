@@ -5,6 +5,29 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.allusers = async (req, res) => {
+    const allusers = await User.find();
+    res.json(allusers);
+} 
+
+
+
+
+
+
 exports.signup = async (req, res) => {
 
     //User Validations
@@ -56,15 +79,16 @@ exports.signin = async (req, res) => {
     return res.json({token, _id: user._id}); 
 }
 
+
+
+
+
+
+
 exports.signout = async(req, res)=>{
     console.log('Inside logout');
     res.clearCookie('Token');
     res.send('Signout Successfull!');
-}
-
-exports.allusers = async (req,res)=>{
-    const allusers= await User.find();
-    res.json(allusers);
 }
 
 exports.deleteuser = async (req,res)=>{
