@@ -1,3 +1,44 @@
+const mysql = require('mysql');
+
+const Bus = require('../model/Bus');
+
+const con = require('./sql');
+
+
+
+
+exports.alltrains = async (req, res) => {
+    const alltrains =
+        con.query("SELECT * FROM Train", (err, row, fields) => {
+
+            if (!err) {
+                res.send(row)
+            } else {
+                console.log(err)
+            }
+        });
+    res.json(alltrains);
+
+}
+
+exports.newtrain = async(req, res) =>{
+    console.log(JSON.stringify(req.body)+"PLSSS");
+    
+    const newt = ("INSERT INTO Train (trainNo, station, TrainName, departureDate, arrivalDate, departureTime, arrivalTime, duration, origin, destination, classes, noOfSeats, price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    var values= [req.body.trainNo, req.body.station, req.body.TrainName, req.body.departureDate, req.body.arrivalDate, req.body.departureTime, req.body.arrivalTime, req.body.duration, req.body.origin, req.body.destination, req.body.classes, req.body.noOfSeats, req.body.price];
+    con.query(newt, values, (err, row, fields) => {
+        if (!err) {
+            console.log(row)
+        } else {
+            console.log(err)
+            }
+         } );
+}
+
+
+
+
+/*
 const Train = require('../model/Train');
 
 exports.newtrain =  async(req,res) =>{
@@ -34,3 +75,4 @@ exports.deletetrains =async (req,res)=>{
     res.json(removedPost);
 }
 
+*/

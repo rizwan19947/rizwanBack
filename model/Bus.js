@@ -1,4 +1,6 @@
-let mongoose = require('mongoose');
+/*
+
+let mysql = require('mysql');
 let Schema = mongoose.Schema;
 const {ObjectId} = mongoose.Schema;
 
@@ -61,3 +63,5 @@ let busSchema = new Schema({
 let Bus = mongoose.model('bus', busSchema);
 
 module.exports = Bus;
+
+*/

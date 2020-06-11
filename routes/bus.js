@@ -4,7 +4,7 @@ const {newbus,allbus,deletebus,busById, read}= require('../controller/bus');
 const Bus = require('../model/Bus');
 const {userById} = require('../controller/user');
 
-router.post('/newbus', newbus);
+//router.post('/newbus', newbus);
 router.get('/getbus', allbus);
 //router.delete('/:busId', requireSignin, isAdmin, isAuth, deletebus);
 //router.get('/busbyId/:busId', read);

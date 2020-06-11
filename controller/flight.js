@@ -1,3 +1,28 @@
+
+const con = require('./sql');
+
+
+
+
+exports.allflights = async (req, res) => {
+    console.log("chal rha hai.");
+    const allflights =
+        con.query("SELECT * FROM Flight", (err, row, fields) => {
+
+            if (!err) {
+                res.send(row)
+            } else {
+                console.log(err)
+            }
+        });
+    res.json(allflights);
+
+}
+
+
+/*
+
+
 const Flight = require('../model/Flight');
 const fs = require('fs');
 const multer = require('multer');
@@ -49,3 +74,4 @@ exports.deleteflights =async (req,res)=>{
     res.json(removedPost);
 }
 
+*/
