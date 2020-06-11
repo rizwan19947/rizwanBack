@@ -1,10 +1,35 @@
+require('dotenv').config();
 const User = require('../model/User');
 const {registerValidation, loginValidation} = require('../validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
 
-exports.signup = async(req, res) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.allusers = async (req, res) => {
+    const allusers = await User.find();
+    res.json(allusers);
+} 
+
+
+
+
+
+
+exports.signup = async (req, res) => {
+
     //User Validations
     const {error}= registerValidation(req.body); 
     if(error) return res.status(400).send(error.details[0].message);
@@ -48,21 +73,22 @@ exports.signin = async (req, res) => {
     if(!validPassword) return res.status(400).send('Invalid Password');
 
     //Create and assign token
-    const token = jwt.sign({_id: user._id},process.env.TOKEN_SECRET);
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
     res.cookie('Token', token);
 
     return res.json({token, _id: user._id}); 
 }
 
+
+
+
+
+
+
 exports.signout = async(req, res)=>{
     console.log('Inside logout');
     res.clearCookie('Token');
     res.send('Signout Successfull!');
-}
-
-exports.allusers = async (req,res)=>{
-    const allusers= await User.find();
-    res.json(allusers);
 }
 
 exports.deleteuser = async (req,res)=>{
