@@ -4,7 +4,7 @@ const {registerValidation, loginValidation} = require('../validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
-
+const con = require('./sql');
 
 
 
@@ -27,13 +27,13 @@ exports.allusers = async (req, res) => {
 exports.signup = async (req, res) => {
 
     //User Validations
-    const { error } = registerValidation(req.body);
+/*    const { error } = registerValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     //Checking if email is already in used
     const emailExist = await User.findOne({ email: req.body.email });
     if (emailExist) return res.status(400).send('Email already exists');
-    //Hashing the Password
+*/    //Hashing the Password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     //Create a New user
@@ -45,9 +45,19 @@ exports.signup = async (req, res) => {
 
     });
     
+    const newusr = ("INSERT INTO user (fname, lname, email, password) VALUES (?,?,?,?)");
+    var values = [user.fname, user.lname, user.email, user.password];
+    con.query(newusr, values, (err, row, fields) => {
+        if (!err) {
+            console.log(row)
+        } else {
+            console.log(err)
+        }
+    });
+
         // console.log("This is mongo connection " +mongoose.connection.readyState);
         //const savedUser = await user.save(user);
-    let sql = "INSERT INTO user SET ?";
+/*   let sql = "INSERT INTO user SET ?";
     let query = connection.query(sql, user, (err, results) => {
         if (err) throw err;
         
@@ -56,7 +66,8 @@ exports.signup = async (req, res) => {
 
 
         res.send({ user: user._id });
-    
+*/
+
 }
 
 
