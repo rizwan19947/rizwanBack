@@ -17,7 +17,6 @@ const expressjwt = require('express-jwt');
 
 
 
-
 exports.allusers = async (req, res) => {
     const allusers = await User.find();
     res.json(allusers);
@@ -25,10 +24,47 @@ exports.allusers = async (req, res) => {
 
 
 
-
-
-
 exports.signup = async (req, res) => {
+
+    //User Validations
+    const { error } = registerValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    //Checking if email is already in used
+    const emailExist = await User.findOne({ email: req.body.email });
+    if (emailExist) return res.status(400).send('Email already exists');
+    //Hashing the Password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    //Create a New user
+    const user = new User({
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        password: hashedPassword
+
+    });
+    
+        // console.log("This is mongo connection " +mongoose.connection.readyState);
+        //const savedUser = await user.save(user);
+    let sql = "INSERT INTO user SET ?";
+    let query = connection.query(sql, user, (err, results) => {
+        if (err) throw err;
+        
+    });
+    res.redirect('/Home');
+
+
+        res.send({ user: user._id });
+    
+}
+
+
+
+
+
+//OLD CODE FOR SIGNUP
+/*exports.signup = async (req, res) => {
 
     //User Validations
     const {error}= registerValidation(req.body); 
@@ -55,7 +91,7 @@ exports.signup = async (req, res) => {
     }catch(err){
         res.status(400).send('Error Occurred : '+err);
     }
-}
+}*/
 
 exports.signin = async (req, res) => {
 
