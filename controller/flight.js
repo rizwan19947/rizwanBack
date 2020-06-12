@@ -19,6 +19,34 @@ exports.allflights = async (req, res) => {
 
 }
 
+exports.newflight = async (req, res) => {
+    console.log(JSON.stringify(req.body) + "FLIGHT ADDINGGGG");
+
+    const newt = ("INSERT INTO Flight (flightNo, AirportId, Airline, departureDate, arrivalDate, departureTime, arrivalTime, duration, origin, destination, classes, noOfSeats, price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    var values = [req.body.flightNo, req.body.AirportId, req.body.Airline, req.body.departureDate, req.body.arrivalDate, req.body.departureTime, req.body.arrivalTime, req.body.duration, req.body.origin, req.body.destination, req.body.classes, req.body.noOfSeats, req.body.price];
+    con.query(newt, values, (err, row, fields) => {
+        if (!err) {
+            console.log(row)
+        } else {
+            console.log(err)
+        }
+    });
+}
+
+
+exports.deleteflights = async (req, res) => {
+    
+    const flightid = req.body.flightid;
+    const newsql = "DELETE FROM Flight WHERE flightid = '"+flightid+"' ";
+    console.log(newsql);
+    con.query (newsql,  (err, row, fields) => {
+        if (!err) {
+            console.log(row)
+        } else {
+            console.log(err)
+        }
+    }); 
+}
 
 /*
 

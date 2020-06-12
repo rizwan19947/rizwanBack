@@ -19,9 +19,9 @@ const uploads = multer({storage:storage});
 */
 
 //router.post('/newflight', requireSignin, uploads.single('Airline'), newflight);
-//router.post('/newflight', newflight);
+router.post('/newflight', newflight);
 router.get('/getflights', allflights);
-//router.delete('/:postId', deleteflights);
+router.delete('/deleteflights', deleteflights);
 //router.param('userId', userById);
 
 module.exports = router;

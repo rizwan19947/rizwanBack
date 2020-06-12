@@ -23,11 +23,9 @@ exports.allbus = async (req, res) => {
 }
 
 exports.newbus = async (req, res) => {
-    console.log("add bhi ho jayga.");
-    let temp = req.body;
-    const sql = `Insert Into Bus (busNo, station, BusName, departureDate, arrivalDate, departureTime, arrivaltime, duration, origin, destination, classes, noOfSeats, price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?`
-    var val = [temp.busNo, temp.station, temp.BusName, temp.departureDate, temp.arrivalDate, temp.departureTime, temp.arrivaltime, temp.duration, temp.origin, temp.destination, temp.classes, temp.noOfSeats, temp.price]
-    con.query(sql, val, (err, row, fields) => {
+    const newt = ("INSERT INTO Bus (busNo, station, BusName, departureDate, arrivalDate, departureTime, arrivalTime, duration, origin, destination, classes, noOfSeats, price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    var values = [req.body.busNo, req.body.station, req.body.BusName, req.body.departureDate, req.body.arrivalDate, req.body.departureTime, req.body.arrivalTime, req.body.duration, req.body.origin, req.body.destination, req.body.classes, req.body.noOfSeats, req.body.price];
+    con.query(newt, values, (err, row, fields) => {
         if (!err) {
             console.log(row)
         } else {
@@ -35,6 +33,20 @@ exports.newbus = async (req, res) => {
         }
     });
 
+}
+
+exports.deletebus = async (req, res) => {
+    
+    const busid = req.body.busid;
+    const newsql = "DELETE FROM Bus WHERE busid = '"+busid+"' ";
+    console.log(newsql);
+    con.query (newsql,  (err, row, fields) => {
+        if (!err) {
+            console.log(row)
+        } else {
+            console.log(err)
+        }
+    }); 
 }
 
 /*

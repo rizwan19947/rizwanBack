@@ -40,7 +40,7 @@ exports.newtrain = async (req, res) => {
         const trainid = req.body.trainid;
         const newsql = "DELETE FROM Train WHERE trainid = '"+trainid+"' ";
         console.log(newsql);
-        con.query (newsql, dep, (err, row, fields) => {
+        con.query (newsql,  (err, row, fields) => {
             if (!err) {
                 console.log(row)
             } else {

@@ -132,7 +132,7 @@ exports.signin = async (req, res) => {
             console.log(row)
         } else {
           //  alert("UNABLE TO SIGN IN. PLEASE TRY AGAIN!!");
-            console.log("nlg")
+            console.log("nl")
             console.log(err)
         }
     });
