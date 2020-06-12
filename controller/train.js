@@ -21,21 +21,33 @@ exports.alltrains = async (req, res) => {
 
 }
 
-exports.newtrain = async(req, res) =>{
-    console.log(JSON.stringify(req.body)+"PLSSS");
-    
+exports.newtrain = async (req, res) => {
+    console.log(JSON.stringify(req.body) + "PLSSS");
+
     const newt = ("INSERT INTO Train (trainNo, station, TrainName, departureDate, arrivalDate, departureTime, arrivalTime, duration, origin, destination, classes, noOfSeats, price) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-    var values= [req.body.trainNo, req.body.station, req.body.TrainName, req.body.departureDate, req.body.arrivalDate, req.body.departureTime, req.body.arrivalTime, req.body.duration, req.body.origin, req.body.destination, req.body.classes, req.body.noOfSeats, req.body.price];
+    var values = [req.body.trainNo, req.body.station, req.body.TrainName, req.body.departureDate, req.body.arrivalDate, req.body.departureTime, req.body.arrivalTime, req.body.duration, req.body.origin, req.body.destination, req.body.classes, req.body.noOfSeats, req.body.price];
     con.query(newt, values, (err, row, fields) => {
         if (!err) {
             console.log(row)
         } else {
             console.log(err)
-            }
-         } );
+        }
+    });
 }
 
-
+    exports.deletetrains = async (req, res) => {
+        const dep= req.body.departureDate;
+        const trainid = req.body.trainid;
+        const newsql = "DELETE FROM Train WHERE trainid = '"+trainid+"' ";
+        console.log(newsql);
+        con.query (newsql, dep, (err, row, fields) => {
+            if (!err) {
+                console.log(row)
+            } else {
+                console.log(err)
+            }
+        }); 
+}
 
 
 /*
@@ -69,9 +81,12 @@ exports.alltrains = async (req,res)=>{
     const alltrains= await Train.find();
     res.json(alltrains);
 }
+*/
+
+/*
 
 exports.deletetrains =async (req,res)=>{
-    const removedPost = await Train.remove({_id: req.params.postId }) 
+    const removedPost = await Train.remove({_id: req.params.postId })
     res.json(removedPost);
 }
 
