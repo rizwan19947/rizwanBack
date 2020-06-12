@@ -38,8 +38,8 @@ exports.newbus = async (req, res) => {
 exports.deletebus = async (req, res) => {
     
     const busid = req.body.busid;
-    const newsql = "DELETE FROM Bus WHERE busid = '"+busid+"' ";
-    console.log(newsql);
+    const newsql = "DELETE FROM Bus WHERE busid = '" + busid + "' ";
+    console.log(newsql+"DONT DELETE WTF");
     con.query (newsql,  (err, row, fields) => {
         if (!err) {
             console.log(row)
