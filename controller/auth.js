@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { verify } = require('../routes/verifytoken');
 const User = require('../model/User');
 const { registerValidation, loginValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
@@ -8,6 +9,17 @@ const con = require('./sql');
 var cookieSession = require('cookie-session');
 var express = require('express');
 var app = express();
+<<<<<<< HEAD
+=======
+var cookieParser = require('cookie-parser');
+const bodypar = require("body-parser");
+const passport = require("passport")
+var session = require('express-session');
+const cors = require("cors");
+app.use(cors());
+app.use(bodypar.json());
+
+>>>>>>> 454269fb55eeb2eec9e7e995dd66e4eaa2b703c7
 
 
 
@@ -97,12 +109,20 @@ exports.signin = async (req, res) => {
 
     //checking if user exists
 
+<<<<<<< HEAD
+=======
+    console.log(req.body + "BODYYYY");
+>>>>>>> 454269fb55eeb2eec9e7e995dd66e4eaa2b703c7
     const email = req.body.email;
     const pwd = req.body.password;
     const myquery = `SELECT * FROM user where email = ? and password = ?`;
     var value = [email, pwd];
     con.query(myquery, value, async function (error, results, fields) {
+<<<<<<< HEAD
         console.log(JSON.stringify(results).length + " RESULTSS");
+=======
+        console.log(JSON.stringify(results).length + "RESULTSS");
+>>>>>>> 454269fb55eeb2eec9e7e995dd66e4eaa2b703c7
 
         if (error) {
             res.send({
@@ -111,13 +131,19 @@ exports.signin = async (req, res) => {
             })
         } else {
             if (JSON.stringify(results).length > 5) {
+<<<<<<< HEAD
                 console.log("Logged in!");
 
+=======
+
+                console.log("Logged in!");
+>>>>>>> 454269fb55eeb2eec9e7e995dd66e4eaa2b703c7
                 res.send({
                     "code": 200,
                     "success": "login sucessfull"
                 });
 
+<<<<<<< HEAD
 
                 app.use(cookieSession(
                     {
@@ -133,6 +159,31 @@ exports.signin = async (req, res) => {
 
                 console.log('Cookie session Created');
                 console.log(cookieSession);
+=======
+                const user = req.body.email;
+
+
+
+                jwt.sign({ user }, process.env.TOKEN_SECRET, (err, token) => {
+                    //var status1 = "customer";
+                    //res.json({ token, status1 });
+
+
+                    console.log('The Token Assigned is ' + token);
+                });
+
+
+                /*app.use(cookieSession({
+                    name: 'session',
+                    //keys: [JSON.stringify(process.env.TOKEN_SECRET)],
+                    secret: JSON.stringify(process.env.TOKEN_SECRET),
+                    // Cookie Options
+                    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+                }));
+
+                console.log('Cookie session Created');
+                */
+>>>>>>> 454269fb55eeb2eec9e7e995dd66e4eaa2b703c7
 
             }
             else {
@@ -146,8 +197,11 @@ exports.signin = async (req, res) => {
     }
     );
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 454269fb55eeb2eec9e7e995dd66e4eaa2b703c7
 
     //Create and assign token
     //  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
@@ -189,10 +243,20 @@ exports.isAuth = (req, res, next) => {
 };
 
 exports.isAdmin = (req, res, next) => {
-    if (req.profile.role === 0) {
+
+    
+
+
+
+    /*if (req.profile.role === 0) {
         res.status(403).json({
             error: 'Admin resource, Access Denied!!!'
         });
     }
-    next();
+    next();*/
+
+
 }
+
+
+
