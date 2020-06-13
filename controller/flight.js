@@ -19,6 +19,26 @@ exports.allflights = async (req, res) => {
 
 }
 
+exports.searchflights = async (req, res) => {
+    alert("SearchFlights works!");
+    const destination = req.body.destination;
+    const origin = req.body.origin
+    const val = [origin, destination];
+    const myquery = "Select * FROM Flight WHERE origin = " + 'origin' + " AND destination = " +'destination'+ "";
+    con.query("Select * FROM Flight WHERE origin = " + 'origin' + " AND destination = " +'destination'+ "", val, (err, row, fields) => {
+
+        if (!err) {
+            res.send(row)
+        } else {
+            console.log(err)
+        }
+    });
+    //res.json(allflights);
+
+}
+
+
+
 exports.newflight = async (req, res) => {
     console.log(JSON.stringify(req.body) + "FLIGHT ADDINGGGG");
 
@@ -35,17 +55,17 @@ exports.newflight = async (req, res) => {
 
 
 exports.deleteflights = async (req, res) => {
-    
+
     const flightid = req.body.flightid;
-    const newsql = "DELETE FROM Flight WHERE flightid = '"+flightid+"' ";
+    const newsql = "DELETE FROM Flight WHERE flightid = '" + flightid + "' ";
     console.log(newsql);
-    con.query (newsql,  (err, row, fields) => {
+    con.query(newsql, (err, row, fields) => {
         if (!err) {
             console.log(row)
         } else {
             console.log(err)
         }
-    }); 
+    });
 }
 
 /*
@@ -98,7 +118,7 @@ exports.allflights = async (req,res)=>{
 }
 
 exports.deleteflights =async (req,res)=>{
-    const removedPost = await Flight.remove({_id: req.params.postId }) 
+    const removedPost = await Flight.remove({_id: req.params.postId })
     res.json(removedPost);
 }
 

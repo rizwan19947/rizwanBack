@@ -13,10 +13,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "cookie-session": "^1.4.0",
-<<<<<<< HEAD
-=======
     "cookies": "^0.8.0",
->>>>>>> 454269fb55eeb2eec9e7e995dd66e4eaa2b703c7
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
