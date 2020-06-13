@@ -5,6 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
 const con = require('./sql');
+var cookieSession = require('cookie-session');
+var express = require('express');
+var app = express();
 
 
 
@@ -34,8 +37,8 @@ exports.signup = async (req, res) => {
         const emailExist = await User.findOne({ email: req.body.email });
         if (emailExist) return res.status(400).send('Email already exists');
     */    //Hashing the Password
- //   const salt = await bcrypt.genSalt(10);
- //   const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    //   const salt = await bcrypt.genSalt(10);
+    //   const hashedPassword = await bcrypt.hash(req.body.password, salt);
     //Create a New user
     const user = new User({
         fname: req.body.fname,
@@ -74,35 +77,6 @@ exports.signup = async (req, res) => {
 
 
 
-//OLD CODE FOR SIGNUP
-/*exports.signup = async (req, res) => {
-
-    //User Validations
-    const {error}= registerValidation(req.body); 
-    if(error) return res.status(400).send(error.details[0].message);
-    
-    //Checking if email is already in used
-    const emailExist = await User.findOne({email: req.body.email});
-    if(emailExist) return res.status(400).send('Email already exists');
-    //Hashing the Password
-    const salt =await bcrypt.genSalt(10);
-    const hashedPassword= await bcrypt.hash(req.body.password, salt);
-    //Create a New user
-    const user =new User({
-        fname: req.body.fname,
-        lname: req.body.lname,
-        email: req.body.email,
-        password: hashedPassword
-        
-    });
-    try{
-       // console.log("This is mongo connection " +mongoose.connection.readyState);
-        const savedUser = await user.save(user);
-        res.send({ user: user._id });
-    }catch(err){
-        res.status(400).send('Error Occurred : '+err);
-    }
-}*/
 
 exports.signin = async (req, res) => {
 
@@ -122,26 +96,64 @@ exports.signin = async (req, res) => {
     */
 
     //checking if user exists
+
     const email = req.body.email;
     const pwd = req.body.password;
-    const myquery = `SELECT * FROM user where email = ? and password=?`;
+    const myquery = `SELECT * FROM user where email = ? and password = ?`;
     var value = [email, pwd];
-    con.query(myquery, value,  (err, row, fields) => {
-        if (!err) {
-            console.log("logged in mofo")
-            console.log(row)
+    con.query(myquery, value, async function (error, results, fields) {
+        console.log(JSON.stringify(results).length + " RESULTSS");
+
+        if (error) {
+            res.send({
+                "code": 400,
+                "failed": "error ocurred"
+            })
         } else {
-          //  alert("UNABLE TO SIGN IN. PLEASE TRY AGAIN!!");
-            console.log("nl")
-            console.log(err)
+            if (JSON.stringify(results).length > 5) {
+                console.log("Logged in!");
+
+                res.send({
+                    "code": 200,
+                    "success": "login sucessfull"
+                });
+
+
+                app.use(cookieSession(
+                    {
+                    name: 'session',
+                    //                    keys: [JSON.stringify(process.env.TOKEN_SECRET)],
+                    secret: JSON.stringify(process.env.TOKEN_SECRET),
+                    // Cookie Options
+                    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+
+                }
+
+                ));
+
+                console.log('Cookie session Created');
+                console.log(cookieSession);
+
+            }
+            else {
+                console.log("not able to sign in");
+                res.send({
+                    "code": 204,
+                    "success": "Email and password does not match"
+                })
+            }
         }
-    });
+    }
+    );
+
+
+
 
     //Create and assign token
-  //  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  //  res.cookie('Token', token);
+    //  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+    //  res.cookie('Token', token);
 
-  //  return res.json({ token, _id: user._id });
+    //  return res.json({ token, _id: user._id });
 }
 
 
