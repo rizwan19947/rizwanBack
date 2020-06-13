@@ -1,10 +1,22 @@
 require('dotenv').config();
+const { verify } = require('../routes/verifytoken');
 const User = require('../model/User');
 const { registerValidation, loginValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const expressjwt = require('express-jwt');
 const con = require('./sql');
+var cookieSession = require('cookie-session');
+var express = require('express');
+var app = express();
+var cookieParser = require('cookie-parser');
+const bodypar = require("body-parser");
+const passport = require("passport")
+var session = require('express-session');
+const cors = require("cors");
+app.use(cors());
+app.use(bodypar.json());
+
 
 
 
@@ -109,12 +121,37 @@ exports.signin = async (req, res) => {
             })
         } else {
             if (JSON.stringify(results).length > 5) {
+
                 console.log("Logged in!");
-                
                 res.send({
                     "code": 200,
                     "success": "login sucessfull"
-                })
+                });
+
+                const user = req.body.email;
+
+
+
+                jwt.sign({ user }, process.env.TOKEN_SECRET, (err, token) => {
+                    //var status1 = "customer";
+                    //res.json({ token, status1 });
+
+
+                    console.log('The Token Assigned is ' + token);
+                });
+
+
+                /*app.use(cookieSession({
+                    name: 'session',
+                    //keys: [JSON.stringify(process.env.TOKEN_SECRET)],
+                    secret: JSON.stringify(process.env.TOKEN_SECRET),
+                    // Cookie Options
+                    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+                }));
+
+                console.log('Cookie session Created');
+                */
+
             }
             else {
                 console.log("not able to sign in");
@@ -126,8 +163,6 @@ exports.signin = async (req, res) => {
         }
     }
     );
-
-
 
 
     //Create and assign token
@@ -170,10 +205,20 @@ exports.isAuth = (req, res, next) => {
 };
 
 exports.isAdmin = (req, res, next) => {
-    if (req.profile.role === 0) {
+
+    
+
+
+
+    /*if (req.profile.role === 0) {
         res.status(403).json({
             error: 'Admin resource, Access Denied!!!'
         });
     }
-    next();
+    next();*/
+
+
 }
+
+
+
