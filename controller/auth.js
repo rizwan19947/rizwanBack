@@ -89,7 +89,6 @@ exports.signup = async (req, res) => {
 
 exports.signin = async (req, res) => {
 
-
     //User Validations
     /*
         const {error}= loginValidation(req.body); 
@@ -121,48 +120,27 @@ exports.signin = async (req, res) => {
             })
         } else {
             if (JSON.stringify(results).length > 5) {
-
                 console.log("Logged in!");
+                return "Accepted";
                 res.send({
                     "code": 200,
                     "success": "login sucessfull"
-                });
-
-                const user = req.body.email;
-
-
-
-                jwt.sign({ user }, process.env.TOKEN_SECRET, (err, token) => {
-                    //var status1 = "customer";
-                    //res.json({ token, status1 });
-
-
-                    console.log('The Token Assigned is ' + token);
-                });
-
-
-                /*app.use(cookieSession({
-                    name: 'session',
-                    //keys: [JSON.stringify(process.env.TOKEN_SECRET)],
-                    secret: JSON.stringify(process.env.TOKEN_SECRET),
-                    // Cookie Options
-                    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-                }));
-
-                console.log('Cookie session Created');
-                */
-
+                })
             }
             else {
                 console.log("not able to sign in");
+                return "Denied";
                 res.send({
                     "code": 204,
                     "success": "Email and password does not match"
                 })
+
             }
         }
     }
     );
+
+    return result; 
 
 
     //Create and assign token
