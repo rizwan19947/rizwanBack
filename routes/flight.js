@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {requireSignin} = require('../controller/auth');
-const {newflight,allflights,deleteflights}= require('../controller/flight');
+const {newflight,allflights,searchflights,deleteflights}= require('../controller/flight');
 const Flight = require('../model/Flight');
 const {userById} = require('../controller/user');
 const fs = require('fs');
@@ -22,6 +22,7 @@ const uploads = multer({storage:storage});
 router.post('/newflight', newflight);
 router.get('/getflights', allflights);
 router.delete('/deleteflights', deleteflights);
+router.get('/searchflights', searchflights)
 //router.param('userId', userById);
 
 module.exports = router;

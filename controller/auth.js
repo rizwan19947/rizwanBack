@@ -46,8 +46,8 @@ exports.signup = async (req, res) => {
         const emailExist = await User.findOne({ email: req.body.email });
         if (emailExist) return res.status(400).send('Email already exists');
     */    //Hashing the Password
- //   const salt = await bcrypt.genSalt(10);
- //   const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    //   const salt = await bcrypt.genSalt(10);
+    //   const hashedPassword = await bcrypt.hash(req.body.password, salt);
     //Create a New user
     const user = new User({
         fname: req.body.fname,
